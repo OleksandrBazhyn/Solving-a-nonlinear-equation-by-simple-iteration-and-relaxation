@@ -14,7 +14,7 @@ def simple_iteration(x0, tol=1e-4, max_iter=1000):
     x = x0
     for i in range(max_iter):
         x_new = g(x)
-        t.add_row([i,x_new])
+        t.add_row([i+1,x_new])
         if abs(x_new - x) < tol:
             print(t)
             return x_new, i+1
@@ -23,12 +23,18 @@ def simple_iteration(x0, tol=1e-4, max_iter=1000):
     return x, max_iter
 
 def relaxation_method(x0, alpha=0.1, tol=1e-4, max_iter=1000):
+    print("Метод релаксації")
+    t = PrettyTable(["Крок", "Значення x - alpha * f(x)"])
+    print(f"Наближене значення: ", x0)
     x = x0
     for i in range(max_iter):
         x_new = x - alpha * f(x)
+        t.add_row([i+1,x_new])
         if abs(x_new - x) < tol:
+            print(t)
             return x_new, i+1
         x = x_new
+    print(t)
     return x, max_iter
 
 # Початкове наближення
