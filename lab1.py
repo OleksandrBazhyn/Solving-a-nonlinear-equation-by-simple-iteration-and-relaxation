@@ -1,11 +1,14 @@
 import math
 from prettytable import PrettyTable
 
-def g(x):
-    return -math.sqrt(1 - 5 * math.sin(x))
+# Обмеження значень функції
+def limited_g(x):
+    value = -math.sqrt(1 - 5 * math.sin(x))
+    return max(min(value, 10**10), -10**10)  # обмеження значень
 
-def f(x):
-    return x**2 + 5 * math.sin(x) - 1
+def limited_f(x):
+    value = x**2 + 5 * math.sin(x) - 1
+    return max(min(value, 10**10), -10**10)  # обмеження значень
 
 def simple_iteration(x0, tol=1e-4, max_iter=1000):
     print("Метод простої ітерації")
@@ -13,8 +16,8 @@ def simple_iteration(x0, tol=1e-4, max_iter=1000):
     print(f"Наближене значення: ", x0)
     x = x0
     for i in range(max_iter):
-        x_new = g(x)
-        t.add_row([i+1,x_new])
+        x_new = limited_g(x)
+        t.add_row([i+1, x_new])
         if abs(x_new - x) < tol:
             print(t)
             return x_new, i+1
@@ -28,8 +31,8 @@ def relaxation_method(x0, alpha=0.1, tol=1e-4, max_iter=1000):
     print(f"Наближене значення: ", x0)
     x = x0
     for i in range(max_iter):
-        x_new = x - alpha * f(x)
-        t.add_row([i+1,x_new])
+        x_new = x - alpha * limited_f(x)
+        t.add_row([i+1, x_new])
         if abs(x_new - x) < tol:
             print(t)
             return x_new, i+1
@@ -38,7 +41,7 @@ def relaxation_method(x0, alpha=0.1, tol=1e-4, max_iter=1000):
     return x, max_iter
 
 # Початкове наближення
-x0 = -1.0
+x0 = -2.2306
 
 # Знаходження кореня методом простої ітерації
 root_si, steps_si = simple_iteration(x0)
