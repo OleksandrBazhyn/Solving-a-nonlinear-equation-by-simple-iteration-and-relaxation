@@ -1,13 +1,21 @@
-import math
+import numpy as np
 from prettytable import PrettyTable
 
-# Обмеження значень функції
-def limited_g(x):
-    value = -math.sqrt(1 - 5 * math.sin(x))
+def g(x):
+    value = np.sqrt(1 - 5 * np.sin(x))
     return max(min(value, 10**10), -10**10)  # обмеження значень
 
-def limited_f(x):
-    value = x**2 + 5 * math.sin(x) - 1
+def f(x):
+    value = x**2 + 5 * np.sin(x) - 1
+    return max(min(value, 10**10), -10**10)  # обмеження значень
+
+# g'(x)
+def g_prime(x):
+    cosX = np.cos(x)
+    sinX = np.sin(x)
+    first = (5 * cosX)
+    second = (2 * np.sqrt(1 - 5 * sinX))
+    value = - first/second
     return max(min(value, 10**10), -10**10)  # обмеження значень
 
 def simple_iteration(x0, tol=1e-4, max_iter=1000):
@@ -16,11 +24,11 @@ def simple_iteration(x0, tol=1e-4, max_iter=1000):
     print(f"Наближене значення: ", x0)
     x = x0
     for i in range(max_iter):
-        x_new = limited_g(x)
-        t.add_row([i+1, x_new])
+        x_new = g(x)
+        t.add_row([i + 1, x_new])
         if abs(x_new - x) < tol:
             print(t)
-            return x_new, i+1
+            return x_new, i + 1
         x = x_new
     print(t)
     return x, max_iter
@@ -31,17 +39,37 @@ def relaxation_method(x0, alpha=0.1, tol=1e-4, max_iter=1000):
     print(f"Наближене значення: ", x0)
     x = x0
     for i in range(max_iter):
-        x_new = x - alpha * limited_f(x)
-        t.add_row([i+1, x_new])
+        x_new = x - alpha * f(x)
+        t.add_row([i + 1, x_new])
         if abs(x_new - x) < tol:
             print(t)
-            return x_new, i+1
+            return x_new, i + 1
         x = x_new
     print(t)
     return x, max_iter
 
-# Початкове наближення
-x0 = -2.2306
+def verif_sufficient_convergence_conditions(min_interval_value, max_interval_value, prime_function, step):
+    max_value = float('-inf')  # Ініціалізація максимальної змінної
+    x_at_max = min_interval_value  # Змінна для збереження x, при якому досягається максимум
+
+    # Дискретизація проміжку і пошук максимуму
+    x = min_interval_value
+    while x <= max_interval_value:
+        value = prime_function(x)  # Викликаємо передану функцію
+        if value > max_value:
+            max_value = value
+            x_at_max = x
+        x += step
+    if np.abs(max_value) > 1:
+        print("Достатні умови збіжності не виконуються.")
+    return max_value, x_at_max
+
+# Задаємо проміжок [a, b] та крок
+a = -3  # нижня межа
+b = 3  # верхня межа
+step = 0.1  # крок для дискретизації
+
+x0 = -2.5
 
 # Знаходження кореня методом простої ітерації
 root_si, steps_si = simple_iteration(x0)
@@ -49,5 +77,9 @@ root_si, steps_si = simple_iteration(x0)
 # Знаходження кореня методом релаксації
 root_rel, steps_rel = relaxation_method(x0)
 
+# Викликаємо функцію для знаходження максимуму
+max_value, x_at_max = verif_sufficient_convergence_conditions(a, b, g_prime, step)
+
+print(f"Максимальне значення g'(x) на проміжку [{a}, {b}]: {max_value} при x = {x_at_max}")
 print(f"Метод простої ітерації: корінь = {root_si:.4f}, кроків = {steps_si}")
 print(f"Метод релаксації: корінь = {root_rel:.4f}, кроків = {steps_rel}")
