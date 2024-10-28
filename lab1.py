@@ -18,7 +18,7 @@ def g_prime(x):
     value = - first/second
     return max(min(value, 10**10), -10**10)  # обмеження значень
 
-def simple_iteration(x0, tol=1e-4, max_iter=1000):
+def simple_iteration(x0, tol=1e-4, max_iter=100):
     print("Метод простої ітерації")
     t = PrettyTable(["Крок", "Значення g(x)"])
     print(f"Наближене значення: ", x0)
@@ -35,22 +35,39 @@ def simple_iteration(x0, tol=1e-4, max_iter=1000):
 
 def relaxation_method(x0, alpha=0.1, tol=1e-4, max_iter=100):
     print("Метод релаксації")
-    t = PrettyTable(["Крок", "Значення x - tau * f(x)"])
-    print(f"Наближене значення: ", x0)
+    
+    if (x0 >= 0):
+        t = PrettyTable(["Крок", "Значення x - tau * f(x)"])
+        print(f"Наближене значення: ", x0)
+        x = x0
+        for i in range(max_iter):
+            x_new = x - alpha * f(x)
 
-    x = x0
-    for i in range(max_iter):
-        x_new = x - alpha * f(x)
+            t.add_row([i + 1, x_new])
 
-        t.add_row([i + 1, x_new])
+            if abs(x_new - x) < tol:
+                print(t)
+                return x_new, i + 1
+            x = x_new
 
-        if abs(x_new - x) < tol:
-            print(t)
-            return x_new, i + 1
-        x = x_new
+        print(t)
+        return None, max_iter
+    else:
+        t = PrettyTable(["Крок", "Значення x + tau * f(x)"])
+        print(f"Наближене значення: ", x0)
+        x = x0
+        for i in range(max_iter):
+            x_new = x + alpha * f(x)
 
-    print(t)
-    return None, max_iter
+            t.add_row([i + 1, x_new])
+
+            if abs(x_new - x) < tol:
+                print(t)
+                return x_new, i + 1
+            x = x_new
+
+        print(t)
+        return None, max_iter
 
 def verif_sufficient_convergence_conditions(min_interval_value, max_interval_value, prime_function, step):
     max_value = float('-inf')  # Ініціалізація максимальної змінної
@@ -74,9 +91,12 @@ b = 3  # верхня межа
 step = 0.1  # крок для дискретизації
 
 x0 = -2.5
-initial_guesses = [-3.0, -0.1, -0.5, -1.0, -1.5, -2.0, -2.5, 0.0, 0.1, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0]
-results_relaxation = {x0: relaxation_method(x0) for x0 in initial_guesses}
-print(results_relaxation)
+initial_guesses = [-3.0, 3.0]
+
+# Знаходження коренів методом релаксації
+root_r_value1, steps_r_value1 = relaxation_method(initial_guesses[0])
+root_r_value2, steps_r_value2 = relaxation_method(initial_guesses[1])
+
 # Знаходження кореня методом простої ітерації
 root_si, steps_si = simple_iteration(x0)
 
@@ -85,4 +105,4 @@ max_value, x_at_max = verif_sufficient_convergence_conditions(a, b, g_prime, ste
 
 print(f"Максимальне значення g'(x) на проміжку [{a}, {b}]: {max_value} при x = {x_at_max}")
 print(f"Метод простої ітерації: корінь = {root_si:.4f}, кроків = {steps_si}")
-# print(f"Метод релаксації: корінь = {root_rel:.4f}, кроків = {steps_rel}")
+print(f"Метод релаксації: найбільший за модулем від'ємний корінь = {root_r_value1:.4f}, кроків = {steps_r_value1}")
