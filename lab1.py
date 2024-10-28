@@ -33,7 +33,7 @@ def simple_iteration(x0, tol=1e-4, max_iter=100):
     print(t)
     return x, max_iter
 
-def relaxation_method(x0, alpha=0.1, tol=1e-4, max_iter=100):
+def relaxation_method(x0, tau=0.1, tol=1e-4, max_iter=100):
     print("Метод релаксації")
     
     if (x0 >= 0):
@@ -41,7 +41,7 @@ def relaxation_method(x0, alpha=0.1, tol=1e-4, max_iter=100):
         print(f"Наближене значення: ", x0)
         x = x0
         for i in range(max_iter):
-            x_new = x - alpha * f(x)
+            x_new = x - tau * f(x)
 
             t.add_row([i + 1, x_new])
 
@@ -57,7 +57,7 @@ def relaxation_method(x0, alpha=0.1, tol=1e-4, max_iter=100):
         print(f"Наближене значення: ", x0)
         x = x0
         for i in range(max_iter):
-            x_new = x + alpha * f(x)
+            x_new = x + tau * f(x)
 
             t.add_row([i + 1, x_new])
 
