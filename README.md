@@ -12,3 +12,6 @@ For instalation all packages for working with this repository, execute next comm
 
 ```bash
 pip install -r requirements.txt
+
+# Link to report
+[Ukranian link to report](https://drive.google.com/file/d/1TsFU_hEcHy5PvU1xIMiTciQYlqNfAhiB/view?usp=sharing)
