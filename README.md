@@ -1,4 +1,4 @@
-# Solving-a-nonlinear-equation-by-simple-iteration-and-relaxation
+# Solving a nonlinear equation by simple iteration and relaxation
 The task is as follows:
 Find the smallest negative root of the nonlinear equation
 x^2+5sin(x)-1=0
