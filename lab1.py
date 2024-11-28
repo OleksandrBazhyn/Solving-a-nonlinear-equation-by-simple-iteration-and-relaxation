@@ -39,13 +39,14 @@ def simple_iteration(x0, tol=1e-4, max_iter=100):
 
 def relaxation_method(x0, tau=0.1, tol=1e-4, max_iter=100):
     print("Метод релаксації")
+    f_prime_value = f_prime(x0)
     
-    if (x0 >= 0):
+    if (f_prime_value > 0.0):
         t = PrettyTable(["Крок", "Значення x - tau * f(x)"])
         print(f"Наближене значення: ", x0)
         x = x0
         for i in range(max_iter):
-            x_new = x - tau * f(x)
+            x_new = x + tau * f(x)
 
             t.add_row([i + 1, x_new])
 
@@ -112,7 +113,7 @@ def verif_sufficient_convergence_conditions(min_interval_value, max_interval_val
             max_value = value
             x_at_max = x
         x += step
-    if np.abs(max_value) > 1:
+    if np.abs(max_value) > 0:
         print("Достатні умови збіжності не виконуються.")
     return max_value, x_at_max
 
@@ -120,13 +121,13 @@ def verif_sufficient_convergence_conditions(min_interval_value, max_interval_val
 a = -3  # нижня межа
 b = 0  # верхня межа
 step = 0.1  # крок для дискретизації
+tau = 0.18
 
-x0 = -2.5
+x0 = -3
 initial_guesses = [-3.0, 0]
 
 # Знаходження коренів методом релаксації
-root_r_value1, steps_r_value1 = relaxation_method(initial_guesses[0])
-root_r_value2, steps_r_value2 = relaxation_method(initial_guesses[1])
+root_r_value, steps_r_value = relaxation_method(x0, tau)
 
 # Знаходження кореня методом простої ітерації
 root_si, steps_si = simple_iteration(x0)
@@ -134,9 +135,9 @@ root_si, steps_si = simple_iteration(x0)
 # Викликаємо функцію для знаходження максимуму
 max_value, x_at_max = verif_sufficient_convergence_conditions(a, b, f_prime, step)
 
-print(f"Максимальне значення g'(x) на проміжку [{a}, {b}]: {max_value} при x = {x_at_max}")
-print(f"Метод простої ітерації: корінь = {root_si:.4f}, кроків = {steps_si}")
-print(f"Метод релаксації: найбільший за модулем від'ємний корінь = {root_r_value1:.4f}, кроків = {steps_r_value1}")
+# print(f"Максимальне значення g'(x) на проміжку [{a}, {b}]: {max_value} при x = {x_at_max}")
+# print(f"Метод простої ітерації: корінь = {root_si:.4f}, кроків = {steps_si}")
+print(f"Метод релаксації: найбільший за модулем від'ємний корінь = {root_r_value:.4f}, кроків = {steps_r_value}")
 
 M1(a, b, f_prime, step)
 m1(a, b, f_prime, step)
