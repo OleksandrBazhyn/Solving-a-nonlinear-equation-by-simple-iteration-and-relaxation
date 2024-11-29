@@ -3,8 +3,7 @@ from prettytable import PrettyTable
 
 def g(x):
     first = np.divide(1, (1 + x**2))
-    second = x + 5 * np.sin(x) - 1
-    value = x + first * second
+    value = x + first * f(x)
     return max(min(value, 10**10), -10**10)  # обмеження значень
 
 # g'(x)
@@ -14,15 +13,11 @@ def g_prime(x):
     third = np.cos(x)
     fourth = first - second * third - 4 * x
     fifth = x**4 + 2 * x**2 + 1
-    value = np.divide(fourth, fifth)
+    value = 2 * x - np.divide(fourth, fifth)
     return max(min(value, 10**10), -10**10)  # обмеження значень
 
 def f(x):
     value = x**2 + 5 * np.sin(x) - 1
-    return max(min(value, 10**10), -10**10)  # обмеження значень
-
-def f_prime(x):
-    value = 2 * x + 5 * np.cos(x)
     return max(min(value, 10**10), -10**10)  # обмеження значень
 
 def simple_iteration(x0, tol=1e-4, max_iter=100):
@@ -93,6 +88,7 @@ initial_guesses = [-3.0, 0]
 
 # Знаходження кореня методом простої ітерації
 root_si, steps_si = simple_iteration(x0)
+print(f'max_xє[-3,0](|-x|) = {root_si}; steps = {steps_si}.')
 
 M1(a, b, g_prime, step)
 m1(a, b, g_prime, step)
