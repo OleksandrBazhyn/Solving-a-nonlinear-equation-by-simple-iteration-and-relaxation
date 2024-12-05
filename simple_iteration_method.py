@@ -22,7 +22,7 @@ def f(x):
 
 def simple_iteration(x0, tol=1e-4, max_iter=100):
     print("Метод простої ітерації")
-    t = PrettyTable(["Крок", "Значення g(x)"])
+    t = PrettyTable(["Ітерація №", "Значення g(x)"])
     print(f"Наближене значення: ", x0)
     x = x0
     for i in range(max_iter):
