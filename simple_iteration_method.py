@@ -87,7 +87,7 @@ x0 = -3
 
 # Знаходження кореня методом простої ітерації
 root_si, steps_si = simple_iteration(x0)
-print(f'max_xє[-3,0](|-x|) = {root_si}; steps = {steps_si}.')
+print(f'max_xє[{a}, {b}](|-x|) = {root_si}; steps = {steps_si}.')
 
 M1(a, b, g_prime, step)
 m1(a, b, g_prime, step)
