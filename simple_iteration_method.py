@@ -2,18 +2,18 @@ import numpy as np
 from prettytable import PrettyTable
 
 def g(x):
-    first = np.divide(1, (1 + x**2))
+    first = -1 * np.divide(1, (5 * np.cos(x) + 2 * x))
     value = x + first * f(x)
     return max(min(value, 10**10), -10**10)  # обмеження значень
 
 # g'(x)
 def g_prime(x):
-    first = 10 * x * np.sin(x)
-    second = 5 * (x**2 + 1)
-    third = np.cos(x)
-    fourth = first - second * third - 4 * x
-    fifth = x**4 + 2 * x**2 + 1
-    value = 2 * x - np.divide(fourth, fifth)
+    sinX = np.sin(x)
+    cosX = np.cos(x)
+    x2 = x ** 2
+    first = 25 * (sinX ** 2) + 5 * (x2 - 3) * sinX - 2 * x2 + 2
+    second = 25 * cosX + 20 * x * cosX + 4 * x2
+    value = -1 * np.divide(first, second)
     return max(min(value, 10**10), -10**10)  # обмеження значень
 
 def f(x):
@@ -80,7 +80,7 @@ def verif_sufficient_convergence_conditions(min_interval_value, max_interval_val
 
 # Задаємо проміжок [a, b] та крок
 a = -3  # нижня межа
-b = 0  # верхня межа
+b = -2  # верхня межа
 step = 0.1  # крок для дискретизації
 
 x0 = -3
