@@ -7,18 +7,18 @@ def f(x):
 
 # Визначення функції g(x)
 def g(x):
-    first = np.divide(1, (1 + x**2))
+    first = -1 * np.divide(1, (5 * np.cos(x) + 2 * x))
     value = x + first * f(x)
     return np.clip(value, -10**10, 10**10)  # обмеження значень
 
 # Похідна g'(x)
 def g_prime(x):
-    first = 10 * x * np.sin(x)
-    second = 5 * (x**2 + 1)
-    third = np.cos(x)
-    fourth = first - second * third - 4 * x
-    fifth = x**4 + 2 * x**2 + 1
-    value = 2 * x - np.divide(fourth, fifth)
+    sinX = np.sin(x)
+    cosX = np.cos(x)
+    x2 = x ** 2
+    first = 25 * (sinX ** 2) + 5 * (x2 - 3) * sinX - 2 * x2 + 2
+    second = 25 * cosX + 20 * x * cosX + 4 * x2
+    value = -1 * np.divide(first, second)
     return np.clip(value, -10**10, 10**10)  # обмеження значень
 
 # Створюємо масив значень x
