@@ -22,7 +22,7 @@ def f(x):
 
 def simple_iteration(x0, tol=1e-4, max_iter=100):
     print("Метод простої ітерації")
-    t = PrettyTable(["Ітерація №", "Значення g(x)"])
+    t = PrettyTable(["Ітерація", "Значення g(x)"])
     print(f"Наближене значення: ", x0)
     x = x0
     for i in range(max_iter):
@@ -87,7 +87,7 @@ x0 = -3
 
 # Знаходження кореня методом простої ітерації
 root_si, steps_si = simple_iteration(x0)
-print(f'max_xє[{a}, {b}](|-x|) = {root_si}; steps = {steps_si}.')
+print(f'max_xє[{a}, {b}](|-x|) = {root_si}; ітерацій = {steps_si}.')
 
 M1(a, b, g_prime, step)
 m1(a, b, g_prime, step)

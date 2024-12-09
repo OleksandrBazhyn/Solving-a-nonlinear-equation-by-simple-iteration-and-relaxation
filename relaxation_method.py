@@ -14,7 +14,7 @@ def relaxation_method(x0, tau=0.1, tol=1e-4, max_iter=100):
     f_prime_value = f_prime(x0)
     
     if (f_prime_value > 0.0):
-        t = PrettyTable(["Крок", "Значення x - tau * f(x)"])
+        t = PrettyTable(["Ітерація", "Значення x - tau * f(x)"])
         print(f"Наближене значення: ", x0)
         x = x0
         for i in range(max_iter):
@@ -30,7 +30,7 @@ def relaxation_method(x0, tau=0.1, tol=1e-4, max_iter=100):
         print(t)
         return None, max_iter
     else:
-        t = PrettyTable(["Крок", "Значення x + tau * f(x)"])
+        t = PrettyTable(["Ітерація", "Значення x + tau * f(x)"])
         print(f"Наближене значення: ", x0)
         x = x0
         for i in range(max_iter):
@@ -91,9 +91,9 @@ def verif_sufficient_convergence_conditions(min_interval_value, max_interval_val
 
 # Задаємо проміжок [a, b] та крок
 a = -3  # нижня межа
-b = 0  # верхня межа
+b = -2  # верхня межа
 step = 0.1  # крок для дискретизації
-tau = 0.18
+tau = 0.12
 
 x0 = -3
 initial_guesses = [-3.0, 0]
@@ -101,7 +101,7 @@ initial_guesses = [-3.0, 0]
 # Знаходження коренів методом релаксації
 root_r_value, steps_r_value = relaxation_method(x0, tau)
 
-print(f"Метод релаксації: найбільший за модулем від'ємний корінь = {root_r_value:.4f}, кроків = {steps_r_value}")
+print(f"Метод релаксації: найбільший за модулем від'ємний корінь = {root_r_value:.4f}, ітерацій = {steps_r_value}")
 
 M1(a, b, f_prime, step)
 m1(a, b, f_prime, step)
